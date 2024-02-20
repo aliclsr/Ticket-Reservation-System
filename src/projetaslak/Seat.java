@@ -1,0 +1,6 @@
+package projetaslak;
+
+
+class Seat {
+    
+}

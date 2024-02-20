@@ -1,0 +1,77 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+public class TarihSecimUygulamasi extends JFrame {
+
+    private JList<String> tarihListesi;
+
+    public TarihSecimUygulamasi() {
+        // Başlık
+        setTitle("Tarih Seçim Uygulaması");
+
+        // Ana pencereyi kapatma işlemi
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // Panel oluştur
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        // Tarih aralığı oluştur
+        Calendar baslangicTakvimi = Calendar.getInstance();
+        baslangicTakvimi.set(2023, Calendar.DECEMBER, 4); // 4 Aralık 2023
+
+        Calendar bitisTakvimi = Calendar.getInstance();
+        bitisTakvimi.set(2023, Calendar.DECEMBER, 10); // 10 Aralık 2023
+
+        // Tarih formatı
+        DateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
+
+        // Tarih aralığını liste olarak oluştur
+        DefaultListModel<String> tarihModeli = new DefaultListModel<>();
+        for (Calendar takvim = baslangicTakvimi; takvim.compareTo(bitisTakvimi) <= 0; takvim.add(Calendar.DATE, 1)) {
+            Date tarih = takvim.getTime();
+            tarihModeli.addElement(dateFormat.format(tarih));
+        }
+
+        // JList oluştur
+        tarihListesi = new JList<>(tarihModeli);
+
+        // Listeyi bir JScrollPane içine yerleştir
+        JScrollPane scrollPane = new JScrollPane(tarihListesi);
+
+        // Panelin ortasına yerleştir
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        // Seçim butonu oluştur
+        JButton secimButonu = new JButton("Tarih Seç");
+        secimButonu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Seçilen tarihi al
+                String secilenTarih = tarihListesi.getSelectedValue();
+                JOptionPane.showMessageDialog(TarihSecimUygulamasi.this, "Seçilen Tarih: " + secilenTarih, "Bilgi", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        // Panelin alt kısmına yerleştir
+        panel.add(secimButonu, BorderLayout.SOUTH);
+
+        // Pencereye paneli ekle
+        getContentPane().add(panel);
+
+        // Pencere boyutunu ayarla
+        setSize(300, 200);
+
+        // Pencereyi göster
+        setVisible(true);
+    }
+
+    
+    
+}
